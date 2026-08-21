@@ -1,8 +1,12 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { FormProvider, useForm, type FieldValues } from 'react-hook-form';
 import type { FormSchema } from '../forms/types';
+import { buildZodSchema } from '../forms/validasi';
 import { Angka } from './fields/Angka';
 import { Centang } from './fields/Centang';
 import { Lampiran } from './fields/Lampiran';
+import { LampiranInput } from './fields/LampiranInput';
 import { Pilih } from './fields/Pilih';
 import { StatusWarna } from './fields/StatusWarna';
 import { Tabel } from './fields/Tabel';
@@ -18,8 +22,24 @@ interface FormRendererProps {
 }
 
 export function FormRenderer({ schema, nilaiAwal, onSubmit }: FormRendererProps) {
-  const methods = useForm({ defaultValues: nilaiAwal });
-  const { handleSubmit } = methods;
+  const methods = useForm({
+    defaultValues: nilaiAwal,
+    resolver: zodResolver(buildZodSchema(schema)),
+  });
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+
+  const pesanError = Object.entries(errors)
+    .filter(([key]) => key !== '_bukti')
+    .map(([key, err]) => ({ key, pesan: (err?.message as string) ?? `${key} tidak valid` }));
+
+  useEffect(() => {
+    if (pesanError.length === 0) return;
+    document.getElementById(`baris-${pesanError[0].key}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errors]);
 
   return (
     <FormProvider {...methods}>
@@ -34,33 +54,61 @@ export function FormRenderer({ schema, nilaiAwal, onSubmit }: FormRendererProps)
                 {block.catatan}
               </p>
             )}
-            {block.fields.map((field) => (
-              <label key={field.key} className="flex flex-col gap-1">
-                <span>
-                  {field.label}
-                  {field.wajib && <span style={{ color: 'var(--merah)' }}> *</span>}
-                </span>
-
-                {field.type === 'angka' && <Angka field={field} />}
-                {field.type === 'uang' && <Uang field={field} />}
-                {field.type === 'teks' && <Teks field={field} />}
-                {field.type === 'teks_panjang' && <TeksPanjang field={field} />}
-                {field.type === 'pilih' && <Pilih field={field} />}
-                {field.type === 'ya_tidak' && <YaTidak field={field} />}
-                {field.type === 'centang' && <Centang field={field} />}
-                {field.type === 'status_warna' && <StatusWarna field={field} />}
-                {field.type === 'tabel' && <Tabel field={field} />}
-                {field.type === 'lampiran' && <Lampiran field={field} />}
-
-                {field.bantuan && (
-                  <span className="text-sm" style={{ color: 'var(--kosong)' }}>
-                    {field.bantuan}
+            {block.fields.map((field) => {
+              const bermasalah = Boolean(errors[field.key]);
+              return (
+                <label
+                  key={field.key}
+                  id={`baris-${field.key}`}
+                  className="flex flex-col gap-1 p-2"
+                  style={{ background: bermasalah ? 'rgba(166,43,43,0.12)' : 'transparent' }}
+                >
+                  <span>
+                    {field.label}
+                    {field.wajib && <span style={{ color: 'var(--merah)' }}> *</span>}
                   </span>
-                )}
-              </label>
-            ))}
+
+                  {field.type === 'angka' && <Angka field={field} />}
+                  {field.type === 'uang' && <Uang field={field} />}
+                  {field.type === 'teks' && <Teks field={field} />}
+                  {field.type === 'teks_panjang' && <TeksPanjang field={field} />}
+                  {field.type === 'pilih' && <Pilih field={field} />}
+                  {field.type === 'ya_tidak' && <YaTidak field={field} />}
+                  {field.type === 'centang' && <Centang field={field} />}
+                  {field.type === 'status_warna' && <StatusWarna field={field} />}
+                  {field.type === 'tabel' && <Tabel field={field} />}
+                  {field.type === 'lampiran' && <Lampiran field={field} />}
+
+                  {field.buktiWajib && <LampiranInput name={`_bukti.${field.key}`} label="Lampirkan bukti" />}
+
+                  {field.bantuan && (
+                    <span className="text-sm" style={{ color: 'var(--kosong)' }}>
+                      {field.bantuan}
+                    </span>
+                  )}
+
+                  {bermasalah && (
+                    <span className="text-sm" style={{ color: 'var(--merah)' }}>
+                      {String(errors[field.key]?.message ?? '')}
+                    </span>
+                  )}
+                </label>
+              );
+            })}
           </fieldset>
         ))}
+
+        {pesanError.length > 0 && (
+          <div className="border p-3" style={{ borderColor: 'var(--merah)', background: 'rgba(166,43,43,0.08)' }}>
+            <p style={{ fontFamily: 'var(--display)', color: 'var(--merah)' }}>Periksa kembali sebelum mengirim:</p>
+            <ul className="list-disc pl-5">
+              {pesanError.map((e) => (
+                <li key={e.key}>{e.pesan}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         <button
           type="submit"
           className="px-4 py-3"
