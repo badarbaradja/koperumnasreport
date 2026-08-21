@@ -10,22 +10,24 @@ Dokumen lengkap ada di `docs/`. **Baca `docs/BLUEPRINT.md` dulu.**
 
 ## Stack — jangan diganti
 
-React 18 · Vite · TypeScript · Tailwind v4 · React Router v6 · TanStack Query v5 · react-hook-form + zod · Supabase (Postgres, Auth, Storage, RLS, Edge Functions) · Vercel
+Next.js 15 (App Router) · TypeScript · Tailwind v4 · TanStack Query v5 · react-hook-form + zod · @supabase/ssr · Supabase (Postgres, Auth, Storage, RLS) · Vercel
 
-Jangan pasang: Next.js, ORM apa pun, Redux/Zustand, MUI/AntD/shadcn, library ikon berat, library kompresi gambar.
+Jangan pasang: React Router (App Router sudah menangani rute), ORM apa pun, Redux/Zustand, MUI/AntD/shadcn, next-auth, library ikon berat, library kompresi gambar.
 
 ## Aturan mutlak
 
 1. **Bahasa Indonesia** untuk seluruh teks antarmuka, pesan error, dan label.
-2. **Zona waktu Asia/Jakarta** untuk semua perhitungan tanggal. Jangan pernah `toISOString().slice(0,10)`. Pakai helper di `src/lib/tanggal.ts`.
+2. **Zona waktu Asia/Jakarta** untuk semua perhitungan tanggal. Jangan pernah `toISOString().slice(0,10)`. Pakai helper di `lib/tanggal.ts`.
 3. **RLS tidak boleh dimatikan**, pada tahap mana pun, dengan alasan apa pun. Laporan `accounting` hanya boleh terbaca role `ceo`.
 4. **Angka aturan bisnis dari tabel `policy`**, bukan hardcode. Rp500.000, Rp300.000, target 20, target 2 — semua lewat `usePolicy()`.
 5. **Uang sebagai `bigint`**, satuan rupiah penuh. Tidak pernah float.
-6. **Semua form lewat `FormRenderer`** yang dijalankan dari schema di `src/forms/`. Jangan menulis komponen React per form.
+6. **Semua form lewat `FormRenderer`** yang dijalankan dari schema di `forms/`. Jangan menulis komponen React per form.
 7. **Semua agregasi lewat view Postgres**, jangan dihitung ulang di React.
 8. **View wajib `security_invoker = on`**, kalau tidak data rahasia bocor.
 9. **Mobile-first.** Diuji di lebar 360px. Sasaran sentuh minimal 44px.
 10. **`border-radius: 0`** di seluruh antarmuka. Ini keputusan desain, bukan kelalaian.
+11. **`'use client'`** wajib di FormRenderer, semua komponen field, provider, dan apa pun yang memakai hook atau menangani klik. Layout dan halaman penyusun tata letak tetap Server Component.
+12. **`SUPABASE_SERVICE_ROLE_KEY` tidak boleh berawalan `NEXT_PUBLIC_`** dan tidak boleh disentuh dari Client Component. Hanya di Route Handler atau Server Action.
 
 ## Cara kerja
 
@@ -39,14 +41,18 @@ Jangan pasang: Next.js, ORM apa pun, Redux/Zustand, MUI/AntD/shadcn, library iko
 
 ```bash
 npm run dev      # pengembangan
-npm run build    # wajib bersih sebelum commit
-npx tsc --noEmit # cek tipe
+npm run build    # wajib bersih sebelum commit — build Next.js ikut mengecek tipe
+npx tsc --noEmit # cek tipe cepat
+npm run lint     # eslint bawaan Next.js
 ```
 
 ## Peta dokumen
 
 | File | Isi |
 |---|---|
+| `docs/MULAI-DI-SINI.md` | Langkah pertama memulai proyek |
+| `docs/MODE-OTONOM.md` | Urutan batch & checkpoint wajib |
+| `docs/PROGRESS.md` | Catatan kemajuan — diperbarui agent tiap task |
 | `docs/BLUEPRINT.md` | Dokumen induk — menang atas dokumen lain |
 | `docs/00-SETUP-MANUAL.md` | Langkah manual manusia (Supabase, env, akun) |
 | `docs/01-TASK-BOARD.md` | 24 task berurutan + kriteria selesai |

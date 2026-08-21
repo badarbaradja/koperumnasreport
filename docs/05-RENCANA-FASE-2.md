@@ -27,7 +27,7 @@
 - Antrean kirim: laporan yang gagal masuk antrean lokal, dicoba ulang saat online
 - Lampiran ikut diantre — ini bagian yang paling sulit, file bisa besar
 - Indikator jelas di layar: `Tersimpan di HP · belum terkirim`
-- Service worker via `vite-plugin-pwa`, aplikasi bisa dipasang ke layar utama HP
+- Service worker via `next-pwa` atau `@serwist/next`, aplikasi bisa dipasang ke layar utama HP
 
 **Hati-hati:** antrean offline bisa menghasilkan laporan dobel kalau pengiriman ulang tidak idempoten. Kunci pencegahnya sudah ada — unique index di `report`. Pastikan konflik ditangani sebagai "sudah terkirim", bukan sebagai error.
 

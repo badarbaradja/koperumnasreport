@@ -62,13 +62,13 @@ Semua akun dibuat oleh admin. Tidak boleh ada orang luar mendaftar sendiri.
 ## M5 · Siapkan proyek React
 
 ```bash
-npm create vite@latest koperumnas-laporan -- --template react-ts
+npx create-next-app@latest koperumnas-laporan --ts --app --tailwind --eslint --src-dir=false --import-alias "@/*" --no-turbopack
 cd koperumnas-laporan
-npm install
-npm install @supabase/supabase-js @tanstack/react-query react-router-dom react-hook-form zod @hookform/resolvers date-fns
-npm install -D tailwindcss @tailwindcss/vite
-git init && git add -A && git commit -m "init"
+npm install @supabase/supabase-js @supabase/ssr @tanstack/react-query react-hook-form zod @hookform/resolvers date-fns
+git add -A && git commit -m "init"
 ```
+
+`create-next-app` sudah menyiapkan Tailwind, ESLint, TypeScript, dan git sekaligus.
 
 Lalu salin folder `docs/` dan file `CLAUDE.md` ke root proyek ini.
 
@@ -77,11 +77,13 @@ Lalu salin folder `docs/` dan file `CLAUDE.md` ke root proyek ini.
 Buat file `.env.local` di root proyek:
 
 ```
-VITE_SUPABASE_URL=https://xxxxxxxx.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOi...
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
 ```
 
-Pastikan `.gitignore` sudah memuat `.env.local` (template Vite sudah, tapi cek lagi).
+Template Next.js sudah mengabaikan `.env.local`, tapi cek lagi — ini satu-satunya file yang tidak boleh masuk repo.
+
+⚠️ Awalan `NEXT_PUBLIC_` berarti nilainya **ikut terkirim ke browser**. Itu benar untuk anon key, karena RLS yang menjaga data. Jangan pernah memberi awalan itu pada `service_role key`.
 
 ## M7 · Pasang Claude Code
 
@@ -138,8 +140,8 @@ Bisa ditunda sampai Task 20.
 
 1. Push repo ke GitHub
 2. <https://vercel.com> → **Import Project** → pilih repo
-3. Framework Preset: **Vite**
-4. **Environment Variables** → tambahkan `VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY`
+3. Framework Preset: **Next.js** (terdeteksi otomatis)
+4. **Environment Variables** → tambahkan `NEXT_PUBLIC_SUPABASE_URL` dan `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 5. Deploy
 6. Salin domain hasil deploy → kembali ke Supabase **Authentication → URL Configuration** → masukkan ke **Site URL** dan **Redirect URLs**
 

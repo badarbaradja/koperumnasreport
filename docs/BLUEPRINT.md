@@ -17,10 +17,11 @@ Website laporan harian terpusat untuk Koperumnas Group. Setiap divisi mengisi fo
 
 | Lapisan | Pilihan | Catatan |
 |---|---|---|
-| Frontend | **React 18 + Vite + TypeScript** | |
-| Styling | **Tailwind CSS v4** | token warna di `src/styles/tokens.css` |
-| Routing | **React Router v6** | |
-| Data | **TanStack Query v5** | semua akses Supabase lewat hook di `src/api/` |
+| Frontend | **Next.js 15 (App Router) + TypeScript** | |
+| Styling | **Tailwind CSS v4** | token warna di `app/tokens.css` |
+| Routing | **App Router** — berbasis folder di `app/` | tidak pakai React Router |
+| Data | **TanStack Query v5** | semua akses Supabase lewat hook di `lib/api/` |
+| Auth klien | **@supabase/ssr** | sesi lewat cookie, bukan localStorage |
 | Form | **react-hook-form + zod** | |
 | Backend | **Supabase** | Postgres, Auth, Storage, RLS, Edge Functions |
 | Deploy | **Vercel** (frontend) | Supabase hosted |
@@ -28,7 +29,9 @@ Website laporan harian terpusat untuk Koperumnas Group. Setiap divisi mengisi fo
 | Zona waktu | **Asia/Jakarta (WIB)** | semua perhitungan tanggal pakai ini, bukan UTC |
 | Mata uang | Rupiah, disimpan `bigint` **tanpa desimal** | tampilkan `Intl.NumberFormat('id-ID')` |
 
-Tidak pakai: Next.js, Prisma, ORM apa pun, state manager global (Redux/Zustand), UI kit berat (MUI/AntD).
+Tidak pakai: Prisma atau ORM apa pun, state manager global (Redux/Zustand), UI kit berat (MUI/AntD), `next-auth` (autentikasi sepenuhnya lewat Supabase Auth).
+
+**Kenapa Next.js, bukan Vite.** Keputusan diambil ulang pada 21 Agustus 2026. Dua alasan: tim yang merawat sistem ini sudah menguasai Next.js, dan Fase 2 membutuhkan kode sisi server untuk notifikasi WhatsApp, pembuatan akun massal ber-`service_role`, serta silang-cek terjadwal — ketiganya cukup memakai Route Handler di `app/api/`, tanpa perlu Supabase Edge Function.
 
 ---
 
@@ -67,7 +70,23 @@ Laporan Accounting hanya boleh dilihat CEO. Ini **wajib** lewat Row Level Securi
 
 Fungsi penentu: `public.can_see_report(form_key, author_id)` di `04-CATATAN-TEKNIS.md`.
 
-### 3.4 Aturan bisnis hidup di tabel `policy`, bukan hardcode
+### 3.4 Server Component adalah default, Client Component adalah pengecualian
+
+Di App Router, setiap file adalah Server Component kecuali diberi `'use client'` di baris pertama.
+
+Yang **wajib** `'use client'`: `FormRenderer`, seluruh komponen field, penyedia TanStack Query, penyedia Auth, dan apa pun yang memakai `useState`, `useEffect`, atau menangani klik.
+
+Yang **tetap** Server Component: layout, halaman yang hanya menyusun tata letak, dan pengambilan data awal.
+
+Ini sumber bug paling sering pada kode Next.js yang ditulis agent. Kalau muncul error semacam *"useState only works in Client Components"*, penyebabnya selalu `'use client'` yang lupa dipasang.
+
+### 3.5 Kunci Supabase yang boleh terbaca browser
+
+`NEXT_PUBLIC_*` **ikut terkirim ke browser** — itu memang tujuannya, dan aman untuk anon key karena RLS yang menjaga data.
+
+`SUPABASE_SERVICE_ROLE_KEY` **tanpa** awalan `NEXT_PUBLIC_`, hanya boleh dibaca di Route Handler atau Server Action. Kunci itu melewati seluruh RLS. Salah menaruh awalan `NEXT_PUBLIC_` di depannya sama dengan membocorkan seluruh database.
+
+### 3.6 Aturan bisnis hidup di tabel `policy`, bukan hardcode
 
 Nilai seperti Rp500.000, Rp300.000, target 20 undangan, target 2 closing, hari kerja, dan jam batas laporan disimpan di tabel `policy` sebagai JSONB. Jangan tulis angka ini di kode React.
 

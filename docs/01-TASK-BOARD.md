@@ -42,32 +42,33 @@ Syarat mulai: seluruh checklist `00-SETUP-MANUAL.md` M1–M7 sudah ✅.
 ## TASK 01 · Fondasi proyek & token desain
 
 **Kerjakan**
-- Pasang Tailwind v4 lewat `@tailwindcss/vite`
-- Buat `src/styles/tokens.css` berisi variabel CSS dari palet cetak-biru (lihat `04-CATATAN-TEKNIS.md` §6)
+- Buat `app/tokens.css` berisi variabel CSS dari palet cetak-biru (lihat `04-CATATAN-TEKNIS.md` §6), impor di `app/layout.tsx`
 - Buat struktur folder sesuai `04-CATATAN-TEKNIS.md` §5
-- Pasang `Barlow Condensed`, `IBM Plex Sans`, `IBM Plex Mono` dari Google Fonts di `index.html`
-- Set `<html lang="id">`, judul dokumen: `Pusat Kontrol Koperumnas Group`
+- Pasang `Barlow Condensed`, `IBM Plex Sans`, `IBM Plex Mono` memakai `next/font/google` di `app/layout.tsx` — bukan `<link>` manual
+- Set `lang="id"` di `<html>`, dan `metadata.title = 'Pusat Kontrol Koperumnas Group'`
 
 **Selesai kalau**
 - `npm run dev` jalan tanpa error
 - Halaman kosong sudah memakai font dan warna latar dari token
 - `npm run build` lolos
 
-**Jangan** memasang UI kit (MUI, AntD, shadcn) atau library ikon berat.
+**Jangan** memasang UI kit (MUI, AntD, shadcn), library ikon berat, atau React Router.
 
 ---
 
 ## TASK 02 · Klien Supabase & sesi login
 
 **Kerjakan**
-- `src/lib/supabase.ts` — buat klien dari env, lempar error jelas kalau env kosong
-- `src/auth/AuthProvider.tsx` — context berisi `session`, `profile`, `roles[]`, `assignments[]`, `loading`, `signIn`, `signOut`
-- Halaman `/masuk` — form email + password, pesan error berbahasa Indonesia
+- `lib/supabase/client.ts` (`createBrowserClient`) dan `lib/supabase/server.ts` (`createServerClient` + `cookies()`), keduanya dari `@supabase/ssr`
+- `middleware.ts` di root — menyegarkan sesi dan mengalihkan pengunjung belum login ke `/masuk`
+- `lib/auth/AuthProvider.tsx` (`'use client'`) — context berisi `session`, `profile`, `roles[]`, `assignments[]`, `loading`, `signIn`, `signOut`
+- Halaman `app/masuk/page.tsx` — form email + password, pesan error berbahasa Indonesia
 - Setelah login, ambil `profile`, `role`, dan `assignment` milik user
 
 **Selesai kalau**
 - Login dengan akun CEO (dibuat di M9) berhasil dan `roles` terisi `['ceo','karyawan']`
-- Refresh halaman tidak melempar user keluar
+- Refresh halaman tidak melempar user keluar (sesi lewat cookie, bukan localStorage)
+- Membuka `/papan` tanpa login dialihkan ke `/masuk` oleh middleware, bukan oleh kode di komponen
 - Keluar (`signOut`) mengembalikan ke `/masuk`
 - Salah password memunculkan pesan Indonesia, bukan teks Inggris dari Supabase
 
@@ -127,7 +128,7 @@ Syarat mulai: seluruh checklist `00-SETUP-MANUAL.md` M1–M7 sudah ✅.
 **Kerjakan**
 - Header bergaya kop gambar teknik: nama grup, tanggal WIB, tab peran
 - Tab peran **hanya menampilkan peran yang benar-benar dimiliki user**
-- Rute: `/masuk`, `/`, `/lapor/:formKey`, `/papan`, `/keputusan`, `/marketing`, `/admin`
+- Rute berbasis folder di `app/`: `masuk`, `/`, `lapor/[formKey]`, `papan`, `keputusan`, `marketing`, `terpusat`, `admin`
 - `<Terlindungi peran="ceo">` — komponen penjaga; kalau tidak berhak, tampilkan halaman "Tidak punya akses", bukan halaman kosong
 - Mobile-first: sasaran sentuh minimal 44px, tidak ada scroll horizontal di lebar 360px
 
@@ -392,7 +393,9 @@ Ini menegakkan aturan tertulis klien: *"Tidak cukup hanya menulis 'sudah'. Harus
 
 ## TASK 23 · Halaman admin
 
-**Kerjakan** CRUD sederhana untuk: `profile`, `role`, `assignment`, `lokasi`, `outlet`, `policy`. Hanya `ceo`. Buat user baru lewat Edge Function (butuh service_role — **tidak boleh** dari browser).
+**Kerjakan** CRUD sederhana untuk: `profile`, `role`, `assignment`, `lokasi`, `outlet`, `policy`. Hanya `ceo`.
+
+Pembuatan user baru butuh `service_role` — buat Route Handler di `app/api/admin/user/route.ts`. Kunci dibaca dari `process.env.SUPABASE_SERVICE_ROLE_KEY` (**tanpa** awalan `NEXT_PUBLIC_`). Halaman admin memanggil endpoint itu lewat `fetch`, tidak pernah menyentuh kuncinya langsung.
 
 **Selesai kalau**
 - Bisa menambah lokasi baru dan meng-assign PIC-nya, dan kartunya langsung muncul di Papan Kontrol
@@ -405,8 +408,8 @@ Ini menegakkan aturan tertulis klien: *"Tidak cukup hanya menulis 'sudah'. Harus
 **Kerjakan**
 - Buat 5 akun uji: ceo, pusat, accounting, pic_lokasi, karyawan
 - Jalankan seluruh matriks uji di `04-CATATAN-TEKNIS.md` §4 dan catat hasilnya
-- `npm run build` bersih, tanpa error TypeScript
-- Deploy ke Vercel sesuai M10
+- `npm run build` dan `npm run lint` bersih
+- Deploy ke Vercel sesuai M10 — preset Next.js, dan `SUPABASE_SERVICE_ROLE_KEY` ditambahkan sebagai env server (bukan `NEXT_PUBLIC_`)
 - Uji di HP asli, bukan hanya simulator browser
 
 **Selesai kalau**

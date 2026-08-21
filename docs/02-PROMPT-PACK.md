@@ -45,9 +45,9 @@ Setelah membaca semuanya, ringkas dalam 5 baris: apa yang dibangun, stack-nya, d
 ```
 Kerjakan TASK 01 di docs/01-TASK-BOARD.md.
 
-Pasang Tailwind v4 lewat @tailwindcss/vite, buat src/styles/tokens.css dari palet di docs/04-CATATAN-TEKNIS.md §6, buat struktur folder dari §5, dan pasang tiga font Google di index.html.
+Buat app/tokens.css dari palet di docs/04-CATATAN-TEKNIS.md §6 dan impor di app/layout.tsx. Buat struktur folder dari §5. Pasang tiga font Google lewat next/font/google di layout, jangan pakai tag <link> manual.
 
-Jangan pasang UI kit atau library ikon. Jangan buat komponen apa pun selain yang diperlukan untuk membuktikan token dan font sudah jalan.
+Jangan pasang UI kit, library ikon, atau React Router. Jangan buat komponen apa pun selain yang diperlukan untuk membuktikan token dan font sudah jalan.
 
 Setelah selesai, jalankan npm run build dan tunjukkan hasilnya.
 ```
@@ -57,9 +57,11 @@ Setelah selesai, jalankan npm run build dan tunjukkan hasilnya.
 ```
 Kerjakan TASK 02.
 
-Buat src/lib/supabase.ts, src/auth/AuthProvider.tsx, dan halaman /masuk.
+Pakai @supabase/ssr, bukan createClient biasa. Buat lib/supabase/client.ts (createBrowserClient), lib/supabase/server.ts (createServerClient + cookies dari next/headers), middleware.ts di root untuk menyegarkan sesi dan mengalihkan yang belum login, lib/auth/AuthProvider.tsx, dan app/masuk/page.tsx.
 
 AuthProvider harus menyediakan: session, profile, roles (string[]), assignments, loading, signIn, signOut. Setelah login berhasil, ambil profile, role, dan assignment milik user dalam satu putaran.
+
+Sesi disimpan di cookie, bukan localStorage — kalau tidak, Server Component tidak bisa membaca siapa yang login.
 
 Terjemahkan pesan error Supabase ke Bahasa Indonesia — jangan tampilkan "Invalid login credentials" mentah.
 
@@ -109,7 +111,9 @@ Setelah ini, tidak boleh ada satu pun angka aturan bisnis (500000, 300000, 20, 2
 ```
 Kerjakan TASK 06.
 
-Buat header bergaya kop gambar teknik, rute-rute di task board, dan komponen penjaga <Terlindungi peran="...">.
+Buat header bergaya kop gambar teknik di app/layout.tsx, folder rute di app/ sesuai task board, dan komponen penjaga <Terlindungi peran="...">.
+
+Perhatikan batas server/client: layout dan page penyusun tata letak tetap Server Component. Header yang punya tab peran interaktif dipecah jadi komponen ber-'use client' tersendiri — jangan menjadikan seluruh layout client hanya karena satu bagian butuh useState.
 
 Tab peran hanya menampilkan peran yang benar-benar dimiliki user — jangan tampilkan lalu dinonaktifkan.
 
@@ -330,7 +334,9 @@ Kerjakan TASK 23.
 
 CRUD untuk profile, role, assignment, lokasi, outlet, policy. Hanya role ceo.
 
-Pembuatan user baru butuh service_role key, jadi HARUS lewat Supabase Edge Function — jangan pernah menaruh kunci itu di frontend. Kalau Edge Function terasa terlalu berat untuk sekarang, katakan begitu dan sarankan pembuatan user tetap manual lewat dashboard Supabase; jangan diam-diam menaruh kunci di klien.
+Pembuatan user baru butuh service_role key. Buat Route Handler di app/api/admin/user/route.ts yang membaca process.env.SUPABASE_SERVICE_ROLE_KEY — TANPA awalan NEXT_PUBLIC_. Halaman admin memanggilnya lewat fetch.
+
+Periksa sekali lagi sebelum lapor: pastikan tidak ada satu pun file ber-'use client' yang menyentuh kunci itu, dan pastikan awalan NEXT_PUBLIC_ tidak terpasang di depannya. Salah satu saja dari dua hal itu membocorkan seluruh database.
 
 Uji: tambah lokasi baru, assign PIC, lalu buka Papan Kontrol — kartunya harus langsung ada.
 ```
@@ -376,6 +382,7 @@ Sebelum saya commit, periksa pekerjaanmu di task ini:
 1. Ada angka aturan bisnis yang ter-hardcode?
 2. Ada perhitungan tanggal yang tidak memakai Asia/Jakarta?
 3. Ada teks antarmuka yang masih Bahasa Inggris?
+3b. Ada komponen yang memakai hook tapi lupa 'use client'? Ada yang diberi 'use client' padahal tidak perlu?
 4. Ada pembatasan akses yang hanya ada di UI tapi tidak di RLS?
 5. Apakah tampilannya masih rapi di lebar 360px?
 Jawab satu per satu dan tunjukkan barisnya.

@@ -390,22 +390,37 @@ Jalankan sebagai lima akun berbeda. Semua harus lolos sebelum deploy.
 ## §5 · Struktur folder
 
 ```
-src/
-  api/            report.ts, policy.ts, decision.ts, papan.ts, marketing.ts, admin.ts
-  auth/           AuthProvider.tsx, Terlindungi.tsx
-  components/
-    fields/       Angka.tsx, Uang.tsx, Teks.tsx, TeksPanjang.tsx, Pilih.tsx,
-                  YaTidak.tsx, Centang.tsx, StatusWarna.tsx, Tabel.tsx, Lampiran.tsx
-    FormRenderer.tsx
-    PapanKartu.tsx, AntreanKartu.tsx, AngkaGrid.tsx, KopHalaman.tsx
-  forms/          types.ts, index.ts, f01…f15
-  lib/            supabase.ts, tanggal.ts, rupiah.ts, gambar.ts
-  pages/          Masuk, Beranda, Lapor, Papan, Keputusan, Marketing, Terpusat, Admin
-  styles/         tokens.css
+app/
+  layout.tsx            Server Component — kop halaman, penyedia global
+  page.tsx              beranda
+  tokens.css            token desain
+  masuk/page.tsx
+  lapor/[formKey]/page.tsx
+  papan/page.tsx
+  keputusan/page.tsx
+  marketing/page.tsx
+  terpusat/page.tsx
+  admin/page.tsx
+  api/                  Route Handler — baru dipakai di Fase 2
+components/
+  FormRenderer.tsx      'use client'
+  fields/               'use client' — Angka, Uang, Teks, TeksPanjang, Pilih,
+                        YaTidak, Centang, StatusWarna, Tabel, Lampiran
+  PapanKartu.tsx, AntreanKartu.tsx, AngkaGrid.tsx, KopHalaman.tsx
+  Terlindungi.tsx       'use client'
+lib/
+  supabase/client.ts    createBrowserClient — untuk Client Component
+  supabase/server.ts    createServerClient  — untuk Server Component & Route Handler
+  api/                  report.ts, policy.ts, decision.ts, papan.ts, marketing.ts, admin.ts
+  auth/AuthProvider.tsx 'use client'
+  tanggal.ts, rupiah.ts, gambar.ts
+forms/                  types.ts, index.ts, f01…f15
 supabase/
-  migrations/     0001_init.sql, 0002_rls.sql, 0003_seed.sql, 0004_views.sql
+  migrations/           0001_init.sql, 0002_rls.sql, 0003_seed.sql, 0004_views.sql
 docs/
 ```
+
+**Dua klien Supabase, jangan tertukar.** `lib/supabase/client.ts` memakai `createBrowserClient` dan hanya dipakai di file ber-`'use client'`. `lib/supabase/server.ts` memakai `createServerClient` dengan `cookies()` dari `next/headers`, dipakai di Server Component dan Route Handler. Memanggil yang salah menghasilkan error yang membingungkan tentang cookie.
 
 ---
 
