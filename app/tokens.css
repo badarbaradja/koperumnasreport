@@ -1,0 +1,18 @@
+:root {
+  --kertas:    #E6E9E3;
+  --kertas-2:  #F1F3EE;
+  --tinta:     #10202E;
+  --biru:      #123A56;
+  --biru-2:    #1D5476;
+  --biru-3:    #2E6E93;
+  --garis:     #9FAEA9;
+
+  --hijau:     #2C7A50;
+  --kuning:    #B8801B;
+  --merah:     #A62B2B;
+  --kosong:    #8A968F;
+
+  --display: var(--font-display), sans-serif;
+  --body:    var(--font-body), system-ui, sans-serif;
+  --mono:    var(--font-mono), monospace;
+}
