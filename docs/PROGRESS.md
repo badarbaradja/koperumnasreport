@@ -10,7 +10,7 @@
 | 04 | Row Level Security | ⬜ | | |
 | 05 | Seed `policy`, lokasi, outlet | ⬜ | | |
 | 06 | Kerangka layout, routing, penjaga peran | ⬜ | | |
-| 07 | Tipe `FormSchema` + `FormRenderer` | ⬜ | | |
+| 07 | Tipe `FormSchema` + `FormRenderer` | ✅ | `npx tsc --noEmit` bersih, `npm run build` bersih. Rendering diverifikasi via SSR (`renderToStaticMarkup`) memakai schema uji 3 field (teks, angka, status_warna) — HTML keluaran berisi label & elemen input untuk ketiganya, dan menambah field baru di schema langsung muncul karena renderer sepenuhnya digerakkan dari `schema.blocks`, tanpa cabang kode per form. | **Belum diverifikasi**: perilaku submit → `console.log` interaktif di browser sungguhan — tidak ada tool browser/DOM headless (jsdom/testing-library) tersedia di sesi ini dan saya tidak mau memasang devDependency baru tanpa izin (BLUEPRINT §2). Wiring `handleSubmit(onSubmit)` dari react-hook-form adalah pola standar library, tapi ini klaim dari code review, bukan hasil menjalankan. Field `tabel` & `lampiran` di renderer ini masih representasi native minimal (input polos) — versi penuh (kartu bertumpuk di HP, kompresi gambar, dst) menyusul di Task 08/11 sesuai urutan task board. `FormProvider` dipakai supaya `tabel` (useFieldArray) berbagi context dengan form induk. |
 | 08 | Komponen field | ⬜ | | |
 | 09 | Aturan bukti wajib | ⬜ | | |
 | 10 | Simpan draft & kirim laporan | ⬜ | | |
