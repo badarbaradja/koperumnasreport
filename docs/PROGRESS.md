@@ -34,5 +34,8 @@
 ## Catatan lintas-task
 
 - `docs/REFERENSI-FORMAT-LAPORAN.md` yang dirujuk `CLAUDE.md` dan `BLUEPRINT.md` **tidak ada** di folder `docs/`. Yang ada hanya `docs/02-FORMAT-LAPORAN-DIVISI-BARU.md`, isinya cuma 9 dari 15 format (HRD, Security, Perizinan, Pembangunan, DTI, Kendaraan, PIC Lokasi, CS, GA). Format "sudah berjalan" (Personal Marketing, Pusat, Accounting, IT, Manager Resto, Ita) belum ada sumbernya di manapun. Ini akan memblokir Task 12, 14 (sebagian: `it`), 16, 17 sampai dokumen ini disediakan.
-- `docs/MODE-OTONOM.md` yang dirujuk instruksi awal tidak ada. Urutan batch diambil dari pengelompokan yang diberikan user langsung di percakapan.
+- `docs/MODE-OTONOM.md` yang dirujuk instruksi awal tidak ada. Urutan batch & aturan checkpoint diambil dari prompt pertama user langsung, dikonfirmasi user.
 - `CLAUDE.md` awalnya ditemukan di `docs/CLAUDE.md`, dipindahkan ke root proyek atas konfirmasi user.
+- `docs/01-SPESIFIKASI-SISTEM.md` adalah dokumen LAMA yang sudah digantikan `BLUEPRINT.md` — isinya bertentangan (mengusulkan tabel `laporan_field` bergaya EAV, sedangkan BLUEPRINT memutuskan data laporan disimpan JSONB di `report.data`). Dipindahkan ke `docs/arsip/` atas instruksi user. **Jangan pernah dipakai sebagai acuan.**
+- `docs/02-PROMPT-PACK.md` adalah prompt untuk manusia menempel ke agent, bukan dokumen untuk dibaca agent. Dilewati.
+- `docs/05-RENCANA-FASE-2.md` adalah rencana setelah Fase 1 selesai. Belum dibaca, jangan dikerjakan sekarang.
