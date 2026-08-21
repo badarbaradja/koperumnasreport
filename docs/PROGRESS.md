@@ -31,6 +31,11 @@
 
 ---
 
+## Utang uji (jangan sampai hilang)
+
+- **Matriks RLS #3** (`select * from v_keuangan_rekap` sebagai `pusat` → harap 4 kolom saja, tanpa saldo bank) — **belum bisa diuji**, view-nya belum ada. Uji ulang begitu `0004_views.sql` dibuat (Task 20).
+- **Matriks RLS #10** (buka path storage orang lain tanpa signed URL → harap ditolak) — **belum bisa diuji**, butuh baris nyata di `storage.objects` dari unggahan sungguhan. Uji ulang begitu unggah lampiran jalan (Task 11).
+
 ## Catatan lintas-task
 
 - `docs/REFERENSI-FORMAT-LAPORAN.md` yang dirujuk `CLAUDE.md` dan `BLUEPRINT.md` **tidak ada** di folder `docs/`. Yang ada hanya `docs/02-FORMAT-LAPORAN-DIVISI-BARU.md`, isinya cuma 9 dari 15 format (HRD, Security, Perizinan, Pembangunan, DTI, Kendaraan, PIC Lokasi, CS, GA). Format "sudah berjalan" (Personal Marketing, Pusat, Accounting, IT, Manager Resto, Ita) belum ada sumbernya di manapun. Ini akan memblokir Task 12, 14 (sebagian: `it`), 16, 17 sampai dokumen ini disediakan.
