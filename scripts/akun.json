@@ -1,0 +1,51 @@
+[
+  {
+    "email": "putri@koperumnas.local",
+    "nama": "Putri",
+    "jabatan": "CEO",
+    "divisi": "Direksi",
+    "roles": ["ceo", "karyawan"]
+  },
+  {
+    "email": "sabrina@koperumnas.local",
+    "nama": "Sabrina",
+    "jabatan": "Pusat Pelaporan",
+    "divisi": "HRD",
+    "roles": ["pusat", "kadiv", "karyawan"]
+  },
+  {
+    "email": "accounting@koperumnas.local",
+    "nama": "GANTI",
+    "jabatan": "Accounting",
+    "divisi": "Keuangan",
+    "roles": ["accounting", "karyawan"]
+  },
+  {
+    "email": "dadang@koperumnas.local",
+    "nama": "Dadang",
+    "jabatan": "Humas / PIC Lokasi",
+    "divisi": "Tajur",
+    "roles": ["pic_lokasi", "karyawan"]
+  },
+  {
+    "email": "fauzy@koperumnas.local",
+    "nama": "Fauzy",
+    "jabatan": "Kontrol Marketing",
+    "divisi": "Marketing",
+    "roles": ["kontrol_marketing", "karyawan"]
+  },
+  {
+    "email": "toyib@koperumnas.local",
+    "nama": "Toyib",
+    "jabatan": "Staf",
+    "divisi": "Rukost",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "kasam@koperumnas.local",
+    "nama": "Kasam",
+    "jabatan": "Security",
+    "divisi": "DTI",
+    "roles": ["karyawan"]
+  }
+]
