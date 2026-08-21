@@ -4,7 +4,7 @@
 
 | # | Task | Status | Diverifikasi | Catatan |
 |---|---|---|---|---|
-| 01 | Fondasi proyek & token desain | ⬜ | | |
+| 01 | Fondasi proyek & token desain | ✅ | `npm run dev` jalan, `npx tsc --noEmit` bersih, `npm run build` bersih | Package name diubah dari `tmp-vite` ke `koperumnas-laporan`. Struktur folder §5 dibuat (folder kosong belum ke-track git sampai diisi task berikutnya). Boilerplate Vite (App.css, logo, hero.png, icons.svg) dihapus. |
 | 02 | Klien Supabase & sesi login | ⬜ | | |
 | 03 | Migrasi database — tabel inti | ⬜ | | |
 | 04 | Row Level Security | ⬜ | | |
