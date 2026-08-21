@@ -10,7 +10,7 @@ Dokumen lengkap ada di `docs/`. **Baca `docs/BLUEPRINT.md` dulu.**
 
 ## Stack — jangan diganti
 
-Next.js 15 (App Router) · TypeScript · Tailwind v4 · TanStack Query v5 · react-hook-form + zod · @supabase/ssr · Supabase (Postgres, Auth, Storage, RLS) · Vercel
+Next.js 16 (App Router) · TypeScript · Tailwind v4 · TanStack Query v5 · react-hook-form + zod · @supabase/ssr · Supabase (Postgres, Auth, Storage, RLS) · Vercel
 
 Jangan pasang: React Router (App Router sudah menangani rute), ORM apa pun, Redux/Zustand, MUI/AntD/shadcn, next-auth, library ikon berat, library kompresi gambar.
 

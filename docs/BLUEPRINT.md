@@ -17,7 +17,7 @@ Website laporan harian terpusat untuk Koperumnas Group. Setiap divisi mengisi fo
 
 | Lapisan | Pilihan | Catatan |
 |---|---|---|
-| Frontend | **Next.js 15 (App Router) + TypeScript** | |
+| Frontend | **Next.js 16 (App Router) + TypeScript** | |
 | Styling | **Tailwind CSS v4** | token warna di `app/tokens.css` |
 | Routing | **App Router** — berbasis folder di `app/` | tidak pakai React Router |
 | Data | **TanStack Query v5** | semua akses Supabase lewat hook di `lib/api/` |

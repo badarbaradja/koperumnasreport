@@ -63,6 +63,17 @@ AuthProvider harus menyediakan: session, profile, roles (string[]), assignments,
 
 Sesi disimpan di cookie, bukan localStorage — kalau tidak, Server Component tidak bisa membaca siapa yang login.
 
+SEBELUM menulis kode, buka dan ikuti panduan resmi Supabase untuk Next.js 16:
+https://supabase.com/docs/guides/getting-started/ai-prompts/nextjs-supabase-auth
+
+Dua hal yang WAJIB kamu pastikan, karena pola lamanya masih banyak beredar:
+- cookies() itu ASINKRON. Wajib: const cookieStore = await cookies()
+- Handler cookie HANYA getAll dan setAll. Pola get/set/remove sudah usang dan
+  akan MERUSAK aplikasi. Kalau kamu terdorong menulis get(name) atau
+  remove(name), berhenti — itu tandanya kamu memakai pola Next.js 14.
+
+Lihat juga docs/04-CATATAN-TEKNIS.md §7 poin 9-11 untuk contoh kode lengkapnya.
+
 Terjemahkan pesan error Supabase ke Bahasa Indonesia — jangan tampilkan "Invalid login credentials" mentah.
 
 Jangan bikin halaman daftar/registrasi. Akun hanya dibuat admin.

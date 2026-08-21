@@ -471,3 +471,45 @@ Aturan pemakaian:
 6. **Menyembunyikan tombol tanpa RLS.** Menyembunyikan menu Accounting dari Ibu Sabrina tapi datanya tetap terkirim ke browser bukan pengamanan — hanya penyamaran.
 7. **Foto HP 4 MB langsung diunggah.** Di sinyal lapangan bisa gagal terus. Kompres di browser dulu.
 8. **Membangun 15 form satu per satu.** Kalau agent mulai menulis komponen React per form, hentikan. Semua lewat `FormRenderer`.
+
+9. **Pola cookie `@supabase/ssr` yang lama akan merusak aplikasi.** Supabase secara khusus memperingatkan model AI soal ini, karena pola lamanya masih banyak beredar di tutorial dan data latih.
+
+   ❌ **Jangan pernah** memakai `get(name)`, `set(name, value)`, `remove(name)`:
+   ```ts
+   cookies: { get(name) {...}, set(name, value) {...}, remove(name) {...} }  // RUSAK
+   ```
+
+   ✅ **Satu-satunya pola yang benar** — `getAll` dan `setAll`:
+   ```ts
+   // lib/supabase/server.ts
+   import { createServerClient } from '@supabase/ssr'
+   import { cookies } from 'next/headers'
+
+   export async function createClient() {
+     const cookieStore = await cookies()          // WAJIB await — async sejak Next 15
+     return createServerClient(
+       process.env.NEXT_PUBLIC_SUPABASE_URL!,
+       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+       {
+         cookies: {
+           getAll() { return cookieStore.getAll() },
+           setAll(cookiesToSet) {
+             try {
+               cookiesToSet.forEach(({ name, value, options }) =>
+                 cookieStore.set(name, value, options))
+             } catch {
+               // dipanggil dari Server Component — aman diabaikan
+               // selama middleware/proxy menyegarkan sesi
+             }
+           },
+         },
+       }
+     )
+   }
+   ```
+
+10. **`cookies()` sekarang asinkron.** Di Next.js 16 wajib `await cookies()`. Kode tanpa `await` akan lolos TypeScript di beberapa kasus lalu gagal saat dijalankan dengan pesan yang tidak menunjuk ke akar masalah.
+
+11. **Nama berkas penyegar sesi berubah di Next.js 16.** Sebagian dokumentasi menyebutnya Proxy, bukan Middleware lagi. Periksa dokumentasi resmi Next.js 16 yang berlaku sebelum membuat berkasnya — jangan menyalin pola Next.js 14 dari ingatan.
+
+12. **Jangan mematikan aturan ESLint secara global.** Kalau ada satu pola yang memicu peringatan palsu, matikan di baris itu saja atau batasi ke folder terkait lewat `overrides`. Aturan yang dimatikan global akan tetap mati bertahun-tahun dan menyembunyikan bug asli yang berbeda.
