@@ -4,7 +4,7 @@
     "nama": "Putri",
     "jabatan": "CEO",
     "divisi": "Direksi",
-    "roles": ["ceo", "karyawan"]
+    "roles": ["ceo"]
   },
   {
     "email": "sabrina@koperumnas.local",
