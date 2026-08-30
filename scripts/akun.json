@@ -14,18 +14,32 @@
     "roles": ["pusat", "kadiv", "karyawan"]
   },
   {
-    "email": "accounting@koperumnas.local",
-    "nama": "Shabita",
-    "jabatan": "Accounting",
-    "divisi": "Keuangan",
-    "roles": ["accounting", "karyawan"]
+    "email": "didik@koperumnas.local",
+    "nama": "Didik",
+    "jabatan": "HRD",
+    "divisi": "HRD",
+    "roles": ["kadiv", "karyawan"]
   },
   {
-    "email": "dadang@koperumnas.local",
-    "nama": "Dadang",
-    "jabatan": "Humas / PIC Lokasi",
-    "divisi": "Tajur",
-    "roles": ["pic_lokasi", "karyawan"]
+    "email": "avril@koperumnas.local",
+    "nama": "Avril",
+    "jabatan": "CS",
+    "divisi": "CS",
+    "roles": ["kadiv", "karyawan"]
+  },
+  {
+    "email": "anne@koperumnas.local",
+    "nama": "Anne",
+    "jabatan": "CS",
+    "divisi": "CS",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "fur@koperumnas.local",
+    "nama": "Fur",
+    "jabatan": "CS",
+    "divisi": "CS",
+    "roles": ["karyawan"]
   },
   {
     "email": "fauzy@koperumnas.local",
@@ -35,11 +49,102 @@
     "roles": ["kontrol_marketing", "karyawan"]
   },
   {
-    "email": "toyib@koperumnas.local",
-    "nama": "Toyib",
-    "jabatan": "Staf",
-    "divisi": "Rukost",
+    "email": "dea@koperumnas.local",
+    "nama": "Dea",
+    "jabatan": "Manager Indosteak Cempaka + Kontrol Marketing",
+    "divisi": "Marketing",
+    "roles": ["manager_resto", "kontrol_marketing", "karyawan"]
+  },
+  {
+    "email": "makruf@koperumnas.local",
+    "nama": "Makruf",
+    "jabatan": "Perizinan",
+    "divisi": "Perizinan",
+    "roles": ["kadiv", "karyawan"]
+  },
+  {
+    "email": "tasya@koperumnas.local",
+    "nama": "Tasya",
+    "jabatan": "Perizinan",
+    "divisi": "Perizinan",
     "roles": ["karyawan"]
+  },
+  {
+    "email": "diki@koperumnas.local",
+    "nama": "Diki",
+    "jabatan": "IT",
+    "divisi": "IT",
+    "roles": ["kadiv", "karyawan", "admin"]
+  },
+  {
+    "email": "ibnu@koperumnas.local",
+    "nama": "Ibnu",
+    "jabatan": "IT",
+    "divisi": "IT",
+    "roles": ["karyawan", "admin"]
+  },
+  {
+    "email": "ery@koperumnas.local",
+    "nama": "Ery",
+    "jabatan": "IT + DTI + Manager Indokopi Jatinegara",
+    "divisi": "IT",
+    "roles": ["manager_resto", "karyawan"]
+  },
+  {
+    "email": "fauzan@koperumnas.local",
+    "nama": "Fauzan",
+    "jabatan": "GA",
+    "divisi": "GA",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "cahya@koperumnas.local",
+    "nama": "Cahya",
+    "jabatan": "Security + GA",
+    "divisi": "Security",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "dedi@koperumnas.local",
+    "nama": "Dedi",
+    "jabatan": "Security",
+    "divisi": "Security",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "yundi@koperumnas.local",
+    "nama": "Yundi",
+    "jabatan": "Security",
+    "divisi": "Security",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "masudin@koperumnas.local",
+    "nama": "Masudin",
+    "jabatan": "Security/CS fleksibel",
+    "divisi": "Security",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "ronald@koperumnas.local",
+    "nama": "Ronald",
+    "jabatan": "Teknik",
+    "divisi": "Teknik",
+    "roles": ["kadiv", "karyawan"]
+  },
+  {
+    "email": "wandi@koperumnas.local",
+    "nama": "Wandi",
+    "jabatan": "Teknik",
+    "divisi": "Teknik",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "seno@koperumnas.local",
+    "nama": "Seno",
+    "jabatan": "DTI",
+    "divisi": "DTI",
+    "roles": ["kadiv", "karyawan"]
   },
   {
     "email": "kasam@koperumnas.local",
@@ -47,5 +152,131 @@
     "jabatan": "Security",
     "divisi": "DTI",
     "roles": ["karyawan"]
+  },
+  {
+    "email": "syahbudin@koperumnas.local",
+    "nama": "Syahbudin",
+    "jabatan": "Security DTI",
+    "divisi": "DTI",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "ita@koperumnas.local",
+    "nama": "Ita",
+    "jabatan": "Thrifting & Kontrol F&B",
+    "divisi": "Thrifting",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "tri@koperumnas.local",
+    "nama": "Pak Tri",
+    "jabatan": "Kendaraan",
+    "divisi": "Kendaraan",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "rika@koperumnas.local",
+    "nama": "Mba Rika",
+    "jabatan": "Kontrol F&B",
+    "divisi": "Kontrol F&B",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "dadang@koperumnas.local",
+    "nama": "Dadang",
+    "jabatan": "Humas / PIC Lokasi",
+    "divisi": "Tajur",
+    "roles": ["pic_lokasi", "karyawan"]
+  },
+  {
+    "email": "jery@koperumnas.local",
+    "nama": "Jery",
+    "jabatan": "Humas / PIC Lokasi",
+    "divisi": "Bekasi",
+    "roles": ["pic_lokasi", "karyawan"]
+  },
+  {
+    "email": "toyib@koperumnas.local",
+    "nama": "Toyib",
+    "jabatan": "Staf",
+    "divisi": "Rukost",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "cuko@koperumnas.local",
+    "nama": "Cuko",
+    "jabatan": "Manager Indosteak Pekansari",
+    "divisi": "Marketing",
+    "roles": ["manager_resto", "karyawan"]
+  },
+  {
+    "email": "ryan@koperumnas.local",
+    "nama": "Ryan",
+    "jabatan": "Indosteak/Indokopi",
+    "divisi": "Resto",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "toni@koperumnas.local",
+    "nama": "Toni",
+    "jabatan": "Indosteak/Indokopi",
+    "divisi": "Resto",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "qasim@koperumnas.local",
+    "nama": "Qasim",
+    "jabatan": "Indosteak",
+    "divisi": "Resto",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "bagus@koperumnas.local",
+    "nama": "Bagus",
+    "jabatan": "Indosteak",
+    "divisi": "Resto",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "ahmad@koperumnas.local",
+    "nama": "Ahmad",
+    "jabatan": "Indosteak",
+    "divisi": "Resto",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "elsa@koperumnas.local",
+    "nama": "Elsa",
+    "jabatan": "Indosteak",
+    "divisi": "Resto",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "lusy@koperumnas.local",
+    "nama": "Lusy",
+    "jabatan": "Indosteak",
+    "divisi": "Resto",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "fikri@koperumnas.local",
+    "nama": "Fikri",
+    "jabatan": "Indokopi Jatinegara",
+    "divisi": "Resto",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "fadil@koperumnas.local",
+    "nama": "Fadil",
+    "jabatan": "Indokopi Jatinegara",
+    "divisi": "Resto",
+    "roles": ["karyawan"]
+  },
+  {
+    "email": "accounting@koperumnas.local",
+    "nama": "Shabita",
+    "jabatan": "Accounting",
+    "divisi": "Keuangan",
+    "roles": ["accounting", "karyawan"]
   }
 ]
