@@ -227,3 +227,28 @@ export function hitungCashflowHariIni(data: Record<string, unknown>): { totalMas
 
   return { totalMasuk, totalKeluar, net: totalMasuk - totalKeluar };
 }
+
+/**
+ * Mengambil tanggal laporan Accounting terakhir yang benar-benar tersimpan di database,
+ * digunakan untuk memberikan konteks faktual pada empty state jika laporan hari ini belum ada.
+ */
+export function useTanggalLaporanAccountingTerakhir(enabled = true) {
+  return useQuery({
+    queryKey: ['tanggal-laporan-accounting-terakhir'],
+    queryFn: async (): Promise<string | null> => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('report')
+        .select('tanggal')
+        .eq('form_key', 'accounting')
+        .neq('status', 'draft')
+        .order('tanggal', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) return null;
+      return data?.tanggal ?? null;
+    },
+    enabled,
+  });
+}
+

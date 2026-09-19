@@ -72,3 +72,28 @@ export function useSelisihRestoUntukTanggal(tanggal: string = tanggalWIB(), enab
     enabled,
   });
 }
+
+/**
+ * Mengambil tanggal laporan Resto terakhir (Manager Resto atau Kontrol F&B)
+ * yang benar-benar tersimpan di database sebagai konteks faktual pada empty state.
+ */
+export function useTanggalLaporanRestoTerakhir(enabled = true) {
+  return useQuery({
+    queryKey: ['tanggal-laporan-resto-terakhir'],
+    queryFn: async (): Promise<string | null> => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('report')
+        .select('tanggal')
+        .in('form_key', ['manager_resto', 'kontrol_fnb'])
+        .neq('status', 'draft')
+        .order('tanggal', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) return null;
+      return data?.tanggal ?? null;
+    },
+    enabled,
+  });
+}
+
